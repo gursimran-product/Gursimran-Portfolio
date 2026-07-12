@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Mail, Linkedin, Phone, Send } from 'lucide-react';
 import { highlights } from '../data/highlights';
-import { supabase } from '../lib/supabase';
+
+const encodeForNetlify = (data: Record<string, string>) =>
+  Object.keys(data)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join('&');
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -60,36 +64,18 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { error: dbError } = await supabase
-        .from('contact_messages')
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            message: formData.message
-          }
-        ]);
-
-      if (dbError) throw dbError;
-
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-notification`;
-
-      const notificationResponse = await fetch(apiUrl, {
+      const response = await fetch('/', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeForNetlify({
+          'form-name': 'contact',
           name: formData.name,
           email: formData.email,
           message: formData.message
-        }),
+        })
       });
 
-      if (!notificationResponse.ok) {
-        console.warn('Discord notification failed, but message was saved');
-      }
+      if (!response.ok) throw new Error(`Submission failed with status ${response.status}`);
 
       setSubmitted(true);
       setTimeout(() => {
@@ -208,7 +194,19 @@ const Contact = () => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 border border-gray-200">
+              <form
+                name="contact"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+                className="bg-white rounded-xl p-6 border border-gray-200"
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <p hidden>
+                  <label>
+                    Don't fill this out if you're human: <input name="bot-field" />
+                  </label>
+                </p>
                 {error && (
                   <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
                     {error}
