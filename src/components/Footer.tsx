@@ -1,4 +1,4 @@
-import { Linkedin, Github, Mail, Heart } from 'lucide-react';
+import { Linkedin, Mail, Heart } from 'lucide-react';
 import { highlights } from '../data/highlights';
 
 const Footer = () => {
@@ -21,15 +21,6 @@ const Footer = () => {
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href={highlights.contact.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-500 hover:text-emerald-600 transition-colors duration-200"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5" />
             </a>
             <a
               href={`mailto:${highlights.contact.email}`}

@@ -3,35 +3,9 @@ import { Download, ArrowRight, Target, Zap, TrendingUp } from 'lucide-react';
 import { highlights } from '../data/highlights';
 import { caseStudies } from '../data/caseStudies';
 import CaseStudyCard from '../components/CaseStudyCard';
-import { supabase } from '../lib/supabase';
 
 const Home = () => {
   const featuredCaseStudies = caseStudies.filter(cs => cs.featured);
-
-  const handleDownloadResume = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('resumes')
-        .download('Product_Manager_Gursimran_Singh_Resume.pdf');
-
-      if (error) {
-        console.error('Error downloading resume:', error);
-        return;
-      }
-
-      const url = window.URL.createObjectURL(data);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Product_Manager_Gursimran_Singh_Resume.pdf';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
@@ -60,13 +34,14 @@ const Home = () => {
                 View case studies
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
-              <button
-                onClick={handleDownloadResume}
+              <a
+                href="/resume.pdf"
+                download="Gursimran_Singh_Resume.pdf"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-medium hover:border-emerald-600 hover:text-emerald-600 transition-colors duration-200"
               >
                 <Download className="mr-2 w-5 h-5" />
                 Download resume
-              </button>
+              </a>
             </div>
           </div>
 

@@ -1,31 +1,6 @@
 import { Briefcase, Code, Database, Users, Download, Sparkles } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 
 const About = () => {
-  const handleDownloadResume = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('resumes')
-        .download('Product_Manager_Gursimran_Singh_Resume.pdf');
-
-      if (error) {
-        console.error('Error downloading resume:', error);
-        return;
-      }
-
-      const url = window.URL.createObjectURL(data);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Product_Manager_Gursimran_Singh_Resume.pdf';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
   const experience = [
     {
       role: 'Senior Product Manager',
@@ -33,18 +8,12 @@ const About = () => {
       period: 'May 2023 – Present',
       description: '',
       highlights: [
-        'Owned end-to-end product strategy and roadmap for Intercompany — consolidating 4+ previously independent products into a unified enterprise suite; applied MoSCoW prioritization and Pendo usage analytics alongside support ticket analysis to identify high-friction workflows and sequence the roadmap for maximum user impact.',
-        'Identified a critical accuracy gap in tax rate management — users manually maintained tax tables, generating recurring support tickets and compliance risk — and drove integration of real-time tax engine APIs; architected a multi-vendor model enabling customers to choose their preferred tax engine, which became a key product differentiator, was adopted by all new enterprise customers post-launch, and directly contributed to closing 2 enterprise deals worth ~$2M in ARR.',
-        'Delivered a compliant invoicing solution via third-party vendor partnership and introduced self-service invoice configuration for implementation consultants, reducing configuration time from weeks to days and cutting post-sale onboarding effort across enterprise deployments.',
-        'Defined and tracked OKRs for the Intercompany suite, including north star metrics around reduction in manual reconciliation steps, tax error rates, and implementation cycle time — ensuring the team maintained clear, measurable goals aligned with business outcomes each quarter.',
-        'Scoped and shipped an AI-powered contextual chat feature that delivered precise, workflow-aware answers to user queries directly within the platform; the feature drove a 50%+ reduction in inbound support tickets, enabling the support team to redirect capacity toward complex, high-value customer issues.',
-        'Authored comprehensive PRDs and functional specs in Confluence; translated requirements into Jira epics and user stories, facilitating sprint planning and backlog grooming with engineering to maintain predictable delivery cadence.',
-        'Defined API contracts and integration requirements for third-party tax engine and invoicing vendors, bridging product and engineering teams to ensure technically sound, extensible integrations with minimal rework.',
-        'Partnered with UX to define information architecture and drove wireframe iterations in Figma, ensuring designs reflected real user workflows validated through structured interviews and stakeholder workshops across US, UK, ANZ, and India.',
-        'Defined feature-level success metrics and KPIs to measure adoption, error reduction, and time-to-complete for key workflows; used findings to inform subsequent roadmap iterations.',
-        'Conducted competitive analysis across the intercompany and tax compliance landscape to identify market gaps and strengthen product positioning; findings fed directly into roadmap decisions.',
-        'Presented quarterly roadmap reviews and feature outcomes to VP-level stakeholders, aligning cross-functional teams on priorities, surfacing trade-offs, and securing buy-in for long-term platform investments.',
-        'Built demo narratives and GTM assets in partnership with Sales and Pre-Sales, enabling teams to independently showcase Intercompany capabilities and contributing to faster deal cycles and improved win rates in enterprise evaluations.'
+        'Drove $2M+ in new ARR by identifying a critical accuracy gap in tax rate management and leading vendor evaluation to architect a multi-vendor tax engine integration — giving customers a choice of preferred tax engine; adopted by all new enterprise customers post-launch and directly closed 2 enterprise deals.',
+        'Cut inbound support tickets by 50%+ by scoping and delivering an AI-powered contextual chat feature that gives users precise, workflow-aware answers directly inside the platform, freeing the support team for complex, high-value issues.',
+        'Own end-to-end product strategy and roadmap for the Intercompany suite, consolidating 4+ standalone products into a unified enterprise offering; apply MoSCoW prioritization and Pendo usage analytics to sequence the roadmap, and define OKRs and north-star metrics around reconciliation effort, tax error rates, and implementation cycle time.',
+        'Launched a compliant invoicing solution through a third-party vendor partnership and introduced self-service invoice configuration for implementation consultants — cutting configuration time from weeks to days and reducing post-sale onboarding effort.',
+        'Lead cross-functional delivery across 2 scrum teams (10 people total, including 2 engineering managers) spanning Core product and Tax/Invoicing microservices, plus 2 dedicated designers — partnering on API contracts, integration architecture, and UX wireframes across the US, UK, ANZ, and India.',
+        'Present quarterly roadmap reviews and feature outcomes to VP-level stakeholders, and build demo narratives and GTM assets with Sales and Pre-Sales — contributing to faster deal cycles and stronger win rates, informed by ongoing competitive analysis of the intercompany and tax compliance landscape.'
       ]
     },
     {
@@ -74,17 +43,16 @@ const About = () => {
       role: 'Implementation Lead / Product Manager',
       company: 'Neeyamo Enterprise Solution',
       period: 'July 2018 – November 2021',
-      description: '',
+      description: 'Sole PM across 3 products — Ticketing Platform, Attendance & Leave Management, and Master Data Management — each delivered sequentially through a dedicated scrum team (3 teams across the tenure). Directed a team of 4 (junior PMs and implementation specialists) and owned the full lifecycle from discovery through go-live for 50+ enterprise clients with a combined user base of ~5,000–6,000 employees.',
       highlights: [
-        'Served as the sole PM across 3 products — Ticketing Platform, Attendance & Leave Management, and Master Data Management — owning the full product lifecycle from discovery and PRD writing through development, UAT, and go-live for 50+ enterprise clients with a combined user base of ~5,000–6,000 employees.',
-        'Identified a critical operational gap — client employees were raising HR and payroll queries over email with no tracking, accountability, or SLA visibility — and led the 0-to-1 build of a structured ticketing platform serving both internal ops teams and 50+ enterprise clients; replaced a fragmented email workflow with a fully auditable, SLA-driven system.',
-        'Shipped a full feature set including ticket creation & tracking, auto-assignment to ops teams, SLA monitoring, escalation & notification workflows, manager-level reporting dashboards, and a self-service FAQ module — reducing average resolution time from 7 days to 2 days and handling ~100,000 tickets annually across the client base.',
-        'Drove measurable operational outcomes post-launch: 100% ticket visibility and auditability replacing untracked email threads, significant improvement in ops team efficiency through auto-routing, and improved client satisfaction scores driven by consistent SLA adherence.',
-        'Designed and delivered an enterprise-grade Attendance & Leave Management system from scratch, replacing manual spreadsheet-based tracking; built configurable leave policies, shift management, and real-time attendance dashboards tailored to multi-country, multi-entity payroll workflows across enterprise clients.',
-        'Integrated the Attendance & Leave system with downstream payroll processing pipelines to ensure accurate, timely data flow — eliminating manual data reconciliation between HR and payroll teams and reducing payroll errors caused by attendance discrepancies.',
-        'Created detailed PRDs, BRDs, and FRDs for all 3 products; utilised Jira for user story management and sprint planning, and conducted structured UAT sessions with early adopter customers to validate product quality and market fit before each release.',
-        'Conducted thorough market and competitive analysis to identify feature gaps and opportunities; engaged early adopter customers through MVP feedback sessions to ensure product decisions were grounded in real enterprise use cases.',
-        'Led end-to-end implementation, configuration, go-live, and hypercare for new client onboardings — ensuring smooth transitions, high adoption, and customer satisfaction across all 3 product lines.'
+        'Ticketing Platform: Identified a critical operational gap — HR and payroll queries raised over email with no tracking, accountability, or SLA visibility — and led the 0-to-1 build of a structured ticketing platform for internal ops teams and 50+ enterprise clients, replacing a fragmented email workflow with a fully auditable, SLA-driven system.',
+        'Ticketing Platform: Shipped a full feature set spanning ticket creation & tracking, auto-assignment, SLA monitoring, escalation & notification workflows, manager-level reporting dashboards, and a self-service FAQ module — cutting average resolution time from 7 days to 2 days and handling ~100,000 tickets annually across the client base.',
+        'Ticketing Platform: Drove measurable operational outcomes post-launch: 100% ticket visibility and auditability replacing untracked email threads, improved ops efficiency through auto-routing, and higher client satisfaction through consistent SLA adherence.',
+        'Attendance & Leave Management: Designed and delivered an enterprise-grade Attendance & Leave Management system from scratch, replacing manual spreadsheet tracking; built configurable leave policies, shift management, and real-time attendance dashboards for multi-country, multi-entity payroll workflows.',
+        'Attendance & Leave Management: Integrated the system with downstream payroll pipelines, eliminating manual reconciliation between HR and payroll teams and reducing payroll errors caused by attendance discrepancies.',
+        'Across all 3 products: Authored comprehensive product requirements and specification documentation; used Jira for user story management and sprint planning, and ran structured UAT sessions with early adopter customers to validate quality and market fit before each release.',
+        'Across all 3 products: Conducted market and competitive analysis to identify feature gaps and opportunities, engaging early adopter customers through MVP feedback sessions to ground decisions in real enterprise use cases.',
+        'Across all 3 products: Led end-to-end implementation, configuration, go-live, and hypercare for new client onboardings, ensuring smooth transitions and high adoption across all 3 product lines.'
       ]
     }
   ];
@@ -131,17 +99,18 @@ const About = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-0">
             About Gursimran
           </h1>
-          <button
-            onClick={handleDownloadResume}
+          <a
+            href="/resume.pdf"
+            download="Gursimran_Singh_Resume.pdf"
             className="inline-flex items-center justify-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-700 transition-colors shadow-lg hover:shadow-xl"
           >
             <Download className="w-5 h-5" />
             <span>Download Resume</span>
-          </button>
+          </a>
         </div>
         <div className="prose prose-lg max-w-none">
           <p className="text-xl text-gray-700 leading-relaxed">
-            Product Manager with 7+ years of experience building and scaling SaaS products across HR Tech, CRM, and Intercompany Accounting domains. Strong expertise in product discovery, PRDs, roadmap strategy, stakeholder management, and end-to-end delivery. Proven ability to identify and define AI-driven product opportunities, design AI-assisted workflows and decision-support features, and collaborate with data, engineering, and platform teams to integrate AI/ML capabilities, automation, and intelligent insights into enterprise products.
+            Product Manager with 7+ years of experience building and scaling SaaS products across HR Tech, CRM, and Intercompany Accounting domains. Proven track record of driving revenue impact — including contributing to $2M+ in ARR at BlackLine through a differentiated multi-vendor tax engine integration. Strong expertise in 0-to-1 product builds, roadmap strategy, OKR definition, and stakeholder management, with end-to-end ownership from discovery through delivery. Experienced in shipping AI-powered features, defining API integrations, and leading cross-functional teams across global enterprise environments.
           </p>
         </div>
       </section>
